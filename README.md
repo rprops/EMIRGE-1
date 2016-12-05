@@ -161,32 +161,48 @@ A histogram of the length distribution of your reconstructed sequencs is also au
 
 
 ### Extract taxonomy of interest
+```
 cat otus.97.taxonomy| sed 's/betI-A/betI_A/g' > otus.97.adjusted.taxonomy
+```
 #### in mothur:
+```
 get.lineage(taxonomy=otus.97.adjusted.taxonomy, taxon='Bacteria;Proteobacteria;Betaproteobacteria;Burkholderiales;betI;betI_A-Bacteria;Proteobacteria;Betaproteobacteria;Burkholderiales;Comamonadaceae;Limnohabitans;',name=otus.97.names)
 list.seqs(taxonomy=current)
 get.seqs(accnos=current,fasta=final.otu.emirge.fasta)
+```
 
 ### Add extra sequences from Czechs
+```
 cat reference.fasta final.otu.emirge.pick.fasta > final.otu.emirge.pick.merged.fasta
+```
 ### Only retain first word on each sample header
+```
 awk '{print $1}' final.otu.emirge.pick.merged.fasta > total.emirge.renamed2.fasta
 mv total.emirge.renamed2.fasta final.otu.emirge.pick.merged.fasta
+```
 ### Remove non standard characters from sequence names
+```
 sed -e '/>/s/|/_/g' <final.otu.emirge.pick.merged.fasta >sequence.all.pcr.align.fna2
 sed -e '/>/s/\.//g' <sequence.all.pcr.align.fna2 >final.otu.emirge.pick.merged.fasta
-
+```
 ### Align sequences
+```
 align.seqs(seed=777,fasta=final.otu.emirge.pick.merged.fasta, reference=/scratch/vdenef_fluxm/rprops/databases/silva.seed_v123.align, processors=10,flip=T)
-
+```
 ### Optional: cluster sequences 
-#cluster.split(fasta=final.otu.emirge.pick.align,taxonomy=otus.97.adjusted.pick.taxonomy, splitmethod=classify, taxlevel=4, cutoff=0.15, processors=20)
-#get.oturep(list=final.otu.emirge.pick.an.list,method=distance,fasta=final.otu.emirge.pick.align,name=otus.97.pick.names, label=0.03)
-#classify.otu(list=final.otu.emirge.pick.an.list, taxonomy=otus.97.adjusted.taxonomy,name=otus.97.pick.names, label=0.03)
-
+```
+cluster.split(fasta=final.otu.emirge.pick.align,taxonomy=otus.97.adjusted.pick.taxonomy, splitmethod=classify, taxlevel=4, cutoff=0.15, processors=20)
+get.oturep(list=final.otu.emirge.pick.an.list,method=distance,fasta=final.otu.emirge.pick.align,name=otus.97.pick.names, label=0.03)
+classify.otu(list=final.otu.emirge.pick.an.list, taxonomy=otus.97.adjusted.taxonomy,name=otus.97.pick.names, label=0.03)
+```
+### Make phylogenetic tree
+```
 FastTree -gtr -nt < final.otu.emirge.pick.merged.align > tree_file_NC_afterQC
+```
 
 ### Use phyloassigner to place OTUs/oligotypes
+```
 module load gcc/4.8.5 openmpi/1.10.2/gcc/4.8.5 pplacer hmmer/3.0 bioperl/1.6.1 phyloassigner/6.166
 setupdb.pl tree_file_NC_afterQC final.otu.emirge.pick.merged.align "gi_33328318_gb_AF5304761_"
 phyloassigner.pl final.otu.emirge.pick.merged.phyloassignerdb.tar.gz otu_oligo_total.fasta
+```
