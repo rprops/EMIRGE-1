@@ -24,7 +24,7 @@ Unzip all .gz fastq in the folders. -r stands for recursive, i.e. enter all dire
 gunzip -r /scratch/vdenef_fluxm/rprops/metaG/
 nohup gunzip -r /scratch/vdenef_fluxm/rprops/metaG/ &
 ```
-Extract forward and reverse fastq from original fasta (script comb_to_rever_forw_fastq.pbs).
+Extract forward and reverse fastq from original fastq (script comb_to_rever_forw_fastq.pbs).
 ```
 qsub comb_to_rever_forw_fastq.pbs
 ```
