@@ -29,7 +29,7 @@ Extract forward and reverse fastq from original fasta (script comb_to_rever_forw
 qsub comb_to_rever_forw_fastq.pbs
 ```
 
-Cluster silva_v123 NR99 database to 97 % with usearch. In the original article they also prune the database from sequences with a length less than 1200 and more than 1900.
+Cluster silva_v123 NR99 database to 97 % with usearch. In the original article they also prune the database from sequences with a length less than 1200 and more than 1900. 
 
 ```
 usearch -cluster_fast SILVA_123_SSURef_Nr99_tax_silva2.fasta -id 0.97 -centroids SSURef_NR97_123_for_emirge.fasta -uc SSURef_NR97_123_for_emirge.clusters.uc
