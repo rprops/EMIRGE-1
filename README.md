@@ -46,13 +46,20 @@ Create bowtie-index for your reference database
 bowtie-build SSURef_NR97_123_for_emirge2.fasta SSU_candidate_db_btindex
 ```
 Make sure these scripts are in the directory where all your sample folders are. Run EMIRGE (see batch scripts for parallelizing). Make sure that --Phred33 is present (this is mandatory for new fastq files from Illumina). Takes approx. 20-40h on 10 cores per sample for 65 iterations. Running with -j 1.0 (thus 100 % identity) which is different from the 0.97 that others use (unique seqs). There is also little point in parallelizing beyond 10 - 12 cores because of the dependency on usearch (uses 8 cores). Standard settings are mean insert size of 200 bp (-i option) with standard deviation of 50 bp (-s option) and max. read length of 150 (-l option). Adjust these settings in emirge.pbs if so desired/required.
+You can make several batch scripts (such as below) to run multiple emirge runs in parallel. Replace the directory names with yours.
 ```
-bash -x Batch_01.sh
-bash -x Batch_02.sh
-bash -x Batch_03.sh
-bash -x Batch_04.sh
-bash -x Batch_05.sh
-bash -x Batch_06.sh
+set -e
+for i in Fa13.BD.MLB.DN Fa13.BD.MM110.DN Fa13.BD.MM110.SD Fa13.BD.MM110.SN Fa13.BD.MM15.DN ; do
+        cd $i
+		# print working directory to the screen
+        echo $i
+		# copy mapping.pbs from above directory
+        cp ../emirge.pbs .
+		# Submit job
+        qsub emirge.pbs
+		# go to previous work directory
+        cd -
+done
 ```
 ## Process EMIRGE output
 Reformat fasta header to sort sequences according to abundances. Usage: emirge_rename_fasta.py [options] <iter.DIR> > renamed.fasta
