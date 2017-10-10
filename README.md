@@ -35,7 +35,7 @@ Cluster silva_v123 NR99 database to 97 % with usearch. In the original article t
 usearch -cluster_fast SILVA_123_SSURef_Nr99_tax_silva2.fasta -id 0.97 -centroids SSURef_NR97_123_for_emirge.fasta -uc SSURef_NR97_123_for_emirge.clusters.uc
 ```
 
-Replace non-standard base characters in reference database (script in same directory as database). This was run with python-anaconda2/latest - could also work with the 201607 but not sure yet
+Replace non-standard base characters in reference database (script in same directory as database). This requires `biopython`.
 
 ```
 python fix_nonstandard_chars.py < SSURef_NR97_123_for_emirge.fasta > SSURef_NR97_123_for_emirge2.fasta
