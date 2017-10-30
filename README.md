@@ -209,7 +209,7 @@ FastTree -gtr -nt < final.otu.emirge.pick.merged.align > tree_file_NC_afterQC
 
 ### Use phyloassigner to place OTUs/oligotypes
 ```
-module load gcc/4.8.5 openmpi/1.10.2/gcc/4.8.5 pplacer hmmer/3.0 bioperl/1.6.1 phyloassigner/6.166
+module load gcc/4.8.5 openmpi/1.10.2/gcc/4.8.5 pplacer hmmer/3.0 bioperl/1.6.1 mothur phyloassigner/6.166
 setupdb.pl tree_file_NC_afterQC final.otu.emirge.pick.merged.align "gi_33328318_gb_AF5304761_"
 phyloassigner.pl final.otu.emirge.pick.merged.phyloassignerdb.tar.gz otu_oligo_total.fasta
 ```
