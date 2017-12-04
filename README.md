@@ -82,7 +82,7 @@ bash -x concat.emirge.sh
 
 ## Classify the sequences according to the TaxASS pipeline for freshwater communities (<a href="https://github.com/McMahonLab/TaxAss">https://github.com/McMahonLab/TaxAss</a> )
 
-### Step 1: Remove all redundant information from the first line in the fasta file. Retain sample names only. Fasta file must not be aligned.
+### Step 1: Remove all redundant information from the first line in the fasta file. Retain sample names only. Fasta file must not be aligned.  
 
 ```
 awk '{print $1}' total.emirge.renamed.fasta > total.emirge.renamed2.fasta
@@ -107,14 +107,14 @@ This accounts for sequence length differences
 Rscript calc_full_length_pident.R otus.custom.blast.table otus.custom.blast.table.modified
 ```
 
-###Step 5: Filter BLAST results
+### Step 5: Filter BLAST results
 
 ```
 Rscript filter_seqIDs_by_pident.R otus.custom.blast.table.modified ids.above.97 97 TRUE
 
 Rscript filter_seqIDs_by_pident.R otus.custom.blast.table.modified ids.below.97 97 FALSE
 ```
-###Step 6: Make plots to evaluate blast run
+### Step 6: Make plots to evaluate blast run
 ```
 mkdir plots
 
@@ -123,43 +123,43 @@ Rscript plot_blast_hit_stats.R otus.custom.blast.table.modified 97 plots
 Plot is generated displaying the effect of correcting the Pid for length variations.
 ![blast_hits_used_for_pidents_0-100](https://cloud.githubusercontent.com/assets/19682548/18751230/3dc50a56-80ac-11e6-9cee-d68a58e69096.png)
 
-###Step 7: recover sequence IDs left out of blast (python, bash)
+### Step 7: recover sequence IDs left out of blast (python, bash)
 
 ```
 python find_seqIDs_blast_removed.py total.emirge.renamed.fasta otus.custom.blast.table.modified ids.missing
 cat ids.below.97 ids.missing > ids.below.97.all
 ```
-###Step 8: create fasta files of desired sequence IDs (python)
+### Step 8: create fasta files of desired sequence IDs (python)
 
 ```
 python create_fastas_given_seqIDs.py ids.above.97 total.emirge.renamed.fasta otus.above.97.fasta
 
 python create_fastas_given_seqIDs.py ids.below.97.all total.emirge.renamed.fasta otus.below.97.fasta
 ```
-###Step 9: remove short, long sequences and those with ambiguous bases
+### Step 9: remove short, long sequences and those with ambiguous bases
 ```
 mothur "#screen.seqs(fasta=otus.below.97.fasta,maxambig=0,minlength=1000,maxlength=1700)"
 mothur "#screen.seqs(fasta=otus.above.97.fasta,maxambig=0,minlength=1000,maxlength=1700)"
 ```
 
-###Step 10: extract unique sequences
+### Step 10: extract unique sequences
 ```
 mothur "#unique.seqs(fasta=otus.below.97.good.fasta)"
 mothur "#unique.seqs(fasta=otus.above.97.good.fasta)"
 ```
-###Step 11: classify sequences
+### Step 11: classify sequences
 ```
 mothur "#classify.seqs(fasta=otus.below.97.good.unique.fasta, template=silva.nr_v123.align, taxonomy=silva.nr_v123.tax, method=wang, probs=T, processors=10, cutoff=80)"
 
 mothur "#classify.seqs(fasta=otus.above.97.good.unique.fasta, template=FreshTrain18Aug2016.fasta,  taxonomy=FreshTrain18Aug2016.taxonomy, method=wang, probs=T, processors=10, cutoff=80)"
 ```
-###Step 12: combine taxonomy files, names and fasta files
+### Step 12a: combine taxonomy files, names and fasta files
 ```
 cat otus.above.97.good.unique.FreshTrain18Aug2016.wang.taxonomy otus.below.97.good.unique.nr_v123.wang.taxonomy > otus.97.taxonomy
 cat otus.above.97.good.names otus.below.97.good.names > otus.97.names
 cat otus.above.97.good.unique.fasta otus.below.97.good.unique.fasta > final.otu.emirge.fasta
 ```
-###Step 12: Run R script to create Sequence table (same format as OTU table)
+### Step 12b: Run R script to create Sequence table (same format as OTU table)
 ```
 Rscript emirge_format.R mapped.reads.txt otus.97.taxonomy read.info.txt otus.97.names
 ```
