@@ -206,6 +206,14 @@ classify.otu(list=final.otu.emirge.pick.an.list, taxonomy=otus.97.adjusted.taxon
 ```
 FastTree -gtr -nt < final.otu.emirge.pick.merged.align > tree_file_NC_afterQC
 ```
+How do I get FastTree to be more accurate?
+
+FastTree's default settings give good accuracy in a reasonable amount of time. You may get slight increases in accuracy by changing these settings:
+
+Use the -pseudo option if you have many fragmentary sequences
+Use -spr 4 to increase the number of rounds of minimum-evolution SPR moves
+Use -mlacc 2 -slownni to make the maximum-likelihood NNIs more exhaustive (~4x slower for 5,000 proteins)
+If you are running huge alignments with -fastest, use -no2nd as well: this makes the neighbor-joining phase about 2x slower and may give slight improvements.
 
 ### Use phyloassigner to place OTUs/oligotypes
 ```
