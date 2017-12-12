@@ -149,9 +149,9 @@ mothur "#unique.seqs(fasta=otus.above.97.good.fasta)"
 ```
 ### Step 11: classify sequences
 ```
-mothur "#classify.seqs(fasta=otus.below.97.good.unique.fasta, template=silva.nr_v123.align, taxonomy=silva.nr_v123.tax, method=wang, probs=T, processors=10, cutoff=80)"
+mothur "#classify.seqs(fasta=otus.below.97.good.unique.fasta, template=/nfs/vdenef-lab/Shared/Ruben/databases_taxass/silva.nr_v123.align, taxonomy=/nfs/vdenef-lab/Shared/Ruben/databases_taxass/silva.nr_v123.tax, method=wang, probs=T, processors=10, cutoff=80)"
 
-mothur "#classify.seqs(fasta=otus.above.97.good.unique.fasta, template=FreshTrain18Aug2016.fasta,  taxonomy=FreshTrain18Aug2016.taxonomy, method=wang, probs=T, processors=10, cutoff=80)"
+mothur "#classify.seqs(fasta=otus.above.97.good.unique.fasta, template=/nfs/vdenef-lab/Shared/Ruben/databases_taxass/FreshTrain18Aug2016.fasta,  taxonomy=/nfs/vdenef-lab/Shared/Ruben/databases_taxass/FreshTrain18Aug2016.taxonomy, method=wang, probs=T, processors=10, cutoff=80)"
 ```
 ### Step 12a: combine taxonomy files, names and fasta files
 ```
