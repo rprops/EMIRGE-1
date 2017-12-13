@@ -213,7 +213,11 @@ FastTree's default settings give good accuracy in a reasonable amount of time. Y
 Use the -pseudo option if you have many fragmentary sequences
 Use -spr 4 to increase the number of rounds of minimum-evolution SPR moves
 Use -mlacc 2 -slownni to make the maximum-likelihood NNIs more exhaustive (~4x slower for 5,000 proteins)
-If you are running huge alignments with -fastest, use -no2nd as well: this makes the neighbor-joining phase about 2x slower and may give slight improvements.
+If you are running huge alignments with -fastest, use -no2nd as well: this makes the neighbor-joining phase about 2x slower and may give slight improvements:  
+
+```
+FastTree -gtr -nt -spr 4 -mlacc 2 -slownni < final.otu.emirge.pick.merged.align > tree_file_NC_afterQC
+```
 
 ### Use phyloassigner to place OTUs/oligotypes
 ```
